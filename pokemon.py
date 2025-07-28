@@ -23,14 +23,15 @@ def details():
         print(f"ID: {pokemon_info["id"]}")
         print(f"weight : {pokemon_info["weight"]}")
         print(f"height : {pokemon_info["height"]}")
+        print()
+        choose = input("Do you want to search more pokemon data? (y/n)")
+
+        if "Y" in choose[0] or "y" in choose[0]:
+            print("hello")
+        else:
+            print("Finishing the program...")
+            print()
     except Exception as error:
         print(f"Something gone wrong!\nErro: {error}")
-    print()
-    choose = input("Do you want to search more pokemon data? (y/n)")
-
-    if "yY" in choose[0]:
-        pass
-    else:
-        return
-
+    
 details()
