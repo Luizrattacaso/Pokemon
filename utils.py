@@ -38,9 +38,9 @@ def description(pokemon):
     except Exception as e:
         return f"Error: {e}"
 
-def carregar_imagem_online(nome):
+def load_image(name):
     try:
-        url = f"https://play.pokemonshowdown.com/sprites/gen5/{nome.lower()}.png"
+        url = f"https://play.pokemonshowdown.com/sprites/gen5/{name.lower()}.png"
         response = requests.get(url, timeout=5)
         response.raise_for_status()
         img_data = BytesIO(response.content)

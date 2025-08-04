@@ -4,7 +4,7 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 from io import BytesIO
 
-from utils import get_pokemon_info, description, carregar_imagem_online
+from utils import get_pokemon_info, description, load_image
 
 #pokemon inicial
 name = "dragonite"
@@ -76,7 +76,7 @@ description_frame.place(x=375, y=100)
 description_frame.lift()
 
 #initial pokemon
-pokemon_image = carregar_imagem_online(name)
+pokemon_image = load_image(name)
 
 frame_imagem = Label(frame_pokemon, image=pokemon_image, bg=co6)
 frame_imagem.place(x=90, y=50)
@@ -178,7 +178,7 @@ def new_pokemon():
         pokemon_weight.config(text=f"• Weight: {novo_info['weight']/10} Kg")
 
         #imagem
-        nova_imagem = carregar_imagem_online(new_pokemon_name)
+        nova_imagem = load_image(new_pokemon_name)
 
         if nova_imagem:
             frame_imagem.config(image=nova_imagem, bg=cor_fundo)
