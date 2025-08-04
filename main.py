@@ -223,4 +223,5 @@ botao_buscar = Button(window,
     overrelief=RIDGE)
 botao_buscar.place(x=460, y=7)
 
-window.mainloop()
+if __name__ == "__main__":
+    window.mainloop()
