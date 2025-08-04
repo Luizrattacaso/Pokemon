@@ -1,4 +1,5 @@
 import requests
+
 base_url = "https://pokeapi.co/api/v2/"
 
 def get_pokemon_info(pokemon):
@@ -13,20 +14,27 @@ def get_pokemon_info(pokemon):
             return print(f"Status code: {response.status_code}")
 
     except Exception as Error:
-        print("Error: {Error}")
+        return f"Error: {Error}"
 
-def details():
-    name = input("Enter a pokemon name for better informations: ")
+def description(pokemon):
+    url = f"{base_url}pokemon-species/{pokemon.lower()}/"
     try:
-        pokemon_info = get_pokemon_info(name)
-        print("-="*30)
-        print(f"Name: {pokemon_info["name"].capitalize()}")
-        print(f"ID: {pokemon_info["id"]}")
-        print(f"weight : {pokemon_info["weight"]}")
-        print(f"height : {pokemon_info["height"]}")
-        print("-="*30)
+        response = requests.get(url)
+
+        if response.status_code == 200:
+            data = response.json()
+            description = data["flavor_text_entries"][0]["flavor_text"]
+            if description == None:
+                return f"it's not possible to search\nfor information about {pokemon}"
+            else:
+                return description
+        else:
+            print(f"Something gone wrong. Status code: {response.status_code}")
+    except ValueError as v:
+        return f"Value Error: {v}"
     except Exception as e:
-        print(f"Error: {e}")
+        return f"Error: {e}"
+    
 
 def get_evolution_chain(chain_url_or_id):
     if isinstance(chain_url_or_id, int):
@@ -75,4 +83,6 @@ def show_evolution_chain(chain, depth=0):
 
         show_evolution_chain(evolution, depth + 1)
 
-get_evolution_chain(25)
+#get_evolution_chain(25)
+
+description("dragonite")
