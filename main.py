@@ -2,8 +2,9 @@ from tkinter import *
 from tkinter import ttk
 
 from PIL import Image, ImageTk
+from io import BytesIO
 
-from utils import get_pokemon_info, description
+from utils import get_pokemon_info, description, carregar_imagem_online
 
 #pokemon inicial
 name = "dragonite"
@@ -14,25 +15,25 @@ co1 = "#feffff"
 co5 = "#ef5350"
 co6 = "#7C5AD2"
 
-janela = Tk()
-janela.title("Pokemons")
-janela.geometry("550x510")
-janela.resizable(False, False)
+window = Tk()
+window.title("Pokemons")
+window.geometry("550x510")
+window.resizable(False, False)
 
 try:
-    icone = PhotoImage(file="images/cabeca-pikachu.png")
-    janela.iconphoto(False,icone)
+    icone = PhotoImage(file="icon/cabeca-pikachu.png")
+    window.iconphoto(False,icone)
 except:
     pass
 
-janela.config(bg=co1)
+window.config(bg=co1)
 
-ttk.Separator(janela, orient= HORIZONTAL).grid(row=0,columnspan=1, ipadx=272)
+ttk.Separator(window, orient= HORIZONTAL).grid(row=0,columnspan=1, ipadx=272)
 
-style = ttk.Style(janela)
+style = ttk.Style(window)
 style.theme_use("clam")
 
-frame_pokemon = Frame(janela, width= 550, height = 290, relief="flat", background=co6)
+frame_pokemon = Frame(window, width= 550, height = 290, relief="flat", background=co6)
 frame_pokemon.grid(row=1,column=0)
 
 frame_nome = Label(frame_pokemon,
@@ -74,40 +75,41 @@ description_frame.place(x=375, y=100)
 
 description_frame.lift()
 
-#imagens
-imagem_pokemon = Image.open("images/dragonite.png")
-imagem_pokemon = imagem_pokemon.resize((220,220))
-imagem_pokemon = ImageTk.PhotoImage(imagem_pokemon)
+#initial pokemon
+pokemon_image = carregar_imagem_online(name)
 
-frame_imagem= Label(frame_pokemon,image = imagem_pokemon, bg=co6,fg=co0)
-frame_imagem.place(x=60, y=50)
+frame_imagem = Label(frame_pokemon, image=pokemon_image, bg=co6)
+frame_imagem.place(x=90, y=50)
 
-frame_tipo.lift() #o método lift sobrepõe o que estamos usando como referencia
+frame_imagem= Label(frame_pokemon,image = pokemon_image, bg=co6,fg=co0)
+frame_imagem.place(x=90, y=50)
+
+frame_tipo.lift() #o método lift sobrepõe
 
 #status
-status_pokemon = Label(janela,
+status_pokemon = Label(window,
     text="Informations",
     relief="flat",
     anchor=CENTER,
     font=("verdana 20 bold"),
     bg=co1,
     fg=co0)
-status_pokemon.place(x="15", y="310")
+status_pokemon.place(x=15, y=310)
 
-altura_pokemon = Label(janela, text=f"• Height: {pokemon_info["height"]}", relief="flat", anchor=CENTER, font=("lvy 10"),bg=co1,fg=co0)
-altura_pokemon.place(x="15", y="365")
+pokemon_height = Label(window, text=f"• Height: {pokemon_info["height"]/10} m", relief="flat", anchor=CENTER, font=("lvy 10"),bg=co1,fg=co0)
+pokemon_height.place(x=15, y=365)
 
-peso_pokemon = Label(janela,
-    text=f"• Weight: {pokemon_info["weight"]}",
+pokemon_weight = Label(window,
+    text=f"• Weight: {pokemon_info["weight"]/10} Kg",
     relief="flat",
     anchor=CENTER,
     font=("lvy 10"),
     bg=co1,
     fg=co0)
-peso_pokemon.place(x="15", y="385")
+pokemon_weight.place(x="15", y="385")
 
 #moves
-moves_pokemon = Label(janela,
+moves_pokemon = Label(window,
     text="Moves",
     relief="flat",
     anchor=CENTER,
@@ -120,7 +122,7 @@ movimentos = pokemon_info['moves'][:5]  #5 movimentos
 
 for idx, movimento_info in enumerate(movimentos):
     nome_movimento = movimento_info['move']['name'].replace("-", " ").title()
-    movimento_pokemon = Label(janela,
+    movimento_pokemon = Label(window,
     text=f"• {nome_movimento}",
     relief="flat",
     anchor='w',
@@ -129,11 +131,6 @@ for idx, movimento_info in enumerate(movimentos):
     fg=co0)
 
     movimento_pokemon.place(x=290, y=360 + idx * 30)
-
-pokemon_1 = Image.open("images/cabeca-dragonite.png")
-pokemon_1 = pokemon_1.resize((35,35))
-pokemon_1 = ImageTk.PhotoImage(pokemon_1)
-
 
 def new_pokemon():
     new_pokemon_name = entry_pokemon.get().strip().lower()
@@ -177,25 +174,29 @@ def new_pokemon():
         frame_tipo.config(text=tipo.capitalize(),bg=cor_fundo)
         frame_id.config(text=f"#{novo_info['id']}", bg=cor_fundo)
         description_frame.config(text=nova_desc, bg=cor_fundo)
-        altura_pokemon.config(text=f"• Height: {novo_info['height']}")
-        peso_pokemon.config(text=f"• Weight: {novo_info['weight']}")
+        pokemon_height.config(text=f"• Height: {novo_info['height']/10} m")
+        pokemon_weight.config(text=f"• Weight: {novo_info['weight']/10} Kg")
 
         #imagem
-        nova_imagem = Image.open(f"images/{new_pokemon_name}.png")
-        nova_imagem = nova_imagem.resize((220,220))
-        nova_imagem = ImageTk.PhotoImage(nova_imagem)
+        nova_imagem = carregar_imagem_online(new_pokemon_name)
+
+        if nova_imagem:
+            frame_imagem.config(image=nova_imagem, bg=cor_fundo)
+            frame_imagem.image = nova_imagem
+        else:
+            frame_imagem.config(image=None, text="Not found", font=("lvy 10"), fg="white", bg=cor_fundo)
         frame_imagem.config(image=nova_imagem, bg=cor_fundo)
-        frame_imagem.image = nova_imagem  # manter referência
+        frame_imagem.image = nova_imagem
 
         #moves
-        for widget in janela.winfo_children():
+        for widget in window.winfo_children():
             if isinstance(widget, Label) and widget.winfo_y() >= 360 and widget.winfo_x() >= 290:
                 widget.destroy()
 
         novos_moves = novo_info['moves'][:5]
         for idx, movimento_info in enumerate(novos_moves):
             nome_movimento = movimento_info['move']['name'].replace("-", " ").title()
-            movimento_pokemon = Label(janela,
+            movimento_pokemon = Label(window,
                 text=f"• {nome_movimento}",
                 relief="flat",
                 anchor='w',
@@ -209,10 +210,10 @@ def new_pokemon():
         print(f"Error: {e}")
 
 #entrada
-entry_pokemon = Entry(janela, font=("verdana 12"), width=20, bg=co1, fg=co0, relief="solid")
+entry_pokemon = Entry(window, font=("verdana 12"), width=20, bg=co1, fg=co0, relief="solid")
 entry_pokemon.place(x=300, y=10)
 
-botao_buscar = Button(janela,
+botao_buscar = Button(window,
     text="Search",
     command=new_pokemon,
     font=("verdana 10 bold"),
@@ -222,4 +223,4 @@ botao_buscar = Button(janela,
     overrelief=RIDGE)
 botao_buscar.place(x=460, y=7)
 
-janela.mainloop()
+window.mainloop()
