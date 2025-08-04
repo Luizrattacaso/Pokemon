@@ -1,52 +1,52 @@
 # 🐉 Pokémon Viewer
 
-Aplicativo desktop em Python que exibe informações, imagem e movimentos dos Pokémons usando uma interface gráfica com **Tkinter**, consumindo dados via API externa através de módulos auxiliares (`get_pokemon_info`, `description`, `carregar_imagem_online`).
+A desktop Python app that displays information, image, and moves of Pokémon using a graphical interface built with Tkinter, consuming data from an external API via helper modules (get_pokemon_info, description, load_image).
 
 ---
 
-## Funcionalidades
+## Features
 
-- Exibe informações do Pokémon inicial **Dragonite** ao abrir.
-- Permite buscar outros Pokémons por nome.
-- Mostra:
-  - Nome, tipo e ID
-  - Imagem oficial
-  - Descrição (texto)
-  - Altura (em metros)
-  - Peso (em kg)
-  - Até 5 movimentos (moves)
-- A cor de fundo muda conforme o tipo do Pokémon (cores definidas por tipo).
+- Displays initial Pokémon Dragonite on startup.
+- Allows searching for other Pokémon by name.
+- Shows:
+  - Name, type, and ID
+  - Official image
+  - Description text
+  - Height (in meters)
+  - Weight (in kg)
+  - Up to 5 moves
+- Background color changes according to the Pokémon's type (colors defined by type).
 
 ---
 
-## 🧰 Tecnologias
+## 🧰 Technologies
 
 - **Python 3.x**  
-- **Tkinter** (interface gráfica)
-- **Pillow** (manipulação de imagens)
-- Módulos auxiliares (importados de `utils.py`):
-  - `get_pokemon_info(nome)` → retorna JSON com dados do Pokémon
-  - `description(nome)` → retorna texto descritivo
-  - `carregar_imagem_online(nome)` → retorna imagem como `PhotoImage`
+- **Tkinter** (graphical interface)
+- **Pillow** (mage handling)
+- Helper modules (imported from `utils.py`):
+  - `get_pokemon_info(nome)` → returns a JSON with Pokémon data
+  - `description(nome)` → returns a descriptive text
+  - `carregar_imagem_online(nome)` → returns image as `PhotoImage`
 
 ---
 
-## ⚙️ Instalação e execução
+## ⚙️ Installation & Execution
 
-1. Clone o repositório:
+1. Clone the repository:
    ```bash
    git clone https://github.com/Luizrattacaso/Pokemon.git
    cd Pokemon
 
-2. Instale as dependências:
+2. Install dependencies:
 
    ```bash
    pip install -r requirements.txt
    ```
 
-3. Certifique-se de que os arquivos `utils.py` e a pasta `icon/` estejam presentes.
+3. Make sure the utils.py file and icon/ folder are present.
 
-4. Execute:
+4. Run the app:
 
    ```bash
    python main.py
@@ -54,23 +54,23 @@ Aplicativo desktop em Python que exibe informações, imagem e movimentos dos Po
 
 ---
 
-## 🖼️ Exemplo de uso
+## 🖼️ Usage Example
 
-* Ao iniciar, exibe Dragonite:
+* It shows Dragonite as initial pokemon:
 
   * ID: `#149`
-  * Tipo: *Dragon*
-  * Altura, peso e até 5 movimentos
-* Pesquise outro Pokémon digitando o nome (ex: “Pikachu”) e clicando em **Search**. O layout é atualizado em tempo real.
+  * Type: *Dragon*
+  * Height, weight, and up to 5 moves
+* Search for another Pokémon by typing its name (e.g., “Pikachu”) and clicking Search. The layout updates in real time.
 
 ---
 
-## 📁 Estrutura sugerida
+## 📁 Suggested Structure
 
 ```
 Pokemon/
-├── main.py               ←script principal
-├── utils.py              ←funções de API, descrição, imagem
+├── main.py               ←main script
+├── utils.py              ←API, description, image functions
 ├── icon/
 │   └── cabeca-pikachu.png
 └── README.md
@@ -78,9 +78,9 @@ Pokemon/
 
 ---
 
-## 🎨 Cores por tipo
+## 🎨 Type Colors
 
-Exemplos de cores definidas no dicionário `cores_tipos`:
+Examples of colors defined in the cores_tipos dictionary:
 
 | Tipo     | Cor (hex) |
 | -------- | --------- |
@@ -93,24 +93,24 @@ Exemplos de cores definidas no dicionário `cores_tipos`:
 
 ---
 
-## 🚀 Melhorias possíveis
+## 🚀 Possible Improvements
 
-* Buscar por ID ou múltiplos Pokémons.
-* Scroll para descrições longas.
-* Exibir imagem em alta resolução.
-* Mostrar base stats, habilidades, etc.
-* Melhor tratamento de erros (ex: Pokémon inválido, offline).
-
----
-
-## 🤝 Contribuições & Licença
-
-* **Contribuições bem-vindas**: abra uma issue ou envie um pull request.
-* **Licença**: adicione um arquivo `LICENSE` ao projeto (ex: MIT, Apache 2.0).
+* Search by ID or multiple Pokémon.
+* Scroll support for long descriptions.
+* Display high-resolution images.
+* Show base stats, abilities, etc.
+* Better error handling (e.g., invalid Pokémon, offline status).
 
 ---
 
-## 🔍 Exemplo rápido de execução
+## 🤝 Contributions & License
+
+* **Contributions are welcome**: open an issue or submit a pull request.
+* **License**: consider adding a LICENSE file to the project (e.g., MIT, Apache 2.0).
+
+---
+
+## 🔍 Quick Run Example
 
 ```bash
 git clone https://github.com/Luizrattacaso/Pokemon.git
@@ -119,6 +119,4 @@ pip install pillow requests
 python main.py
 ```
 
-Depois disso, digite o nome de um Pokémon e pressione **Search** para ver os dados atualizados na interface.
-
-
+After that, enter a Pokémon name and press Search to see the updated data in the interface.
