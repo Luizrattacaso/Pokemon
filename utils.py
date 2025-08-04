@@ -40,7 +40,6 @@ def description(pokemon):
 
 def carregar_imagem_online(nome):
     try:
-        # ✅ Corrigido: sem espaço
         url = f"https://play.pokemonshowdown.com/sprites/gen5/{nome.lower()}.png"
         response = requests.get(url, timeout=5)
         response.raise_for_status()
