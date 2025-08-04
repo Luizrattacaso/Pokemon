@@ -70,7 +70,7 @@ description_frame = Label(frame_pokemon,
     bg=co6,
     fg=co0,
     justify="left",
-    wraplength=150)  # quebra de linha
+    wraplength=150)  #quebra de linha
 description_frame.place(x=375, y=100)
 
 description_frame.lift()
@@ -118,7 +118,7 @@ moves_pokemon = Label(window,
     fg=co0)
 moves_pokemon.place(x="285", y="310")
 
-movimentos = pokemon_info['moves'][:5]  #5 movimentos
+movimentos = pokemon_info['moves'][:5]  #5 moves
 
 for idx, movimento_info in enumerate(movimentos):
     nome_movimento = movimento_info['move']['name'].replace("-", " ").title()
@@ -139,10 +139,10 @@ def new_pokemon():
     
     try:
         novo_info = get_pokemon_info(new_pokemon_name)
-        nova_desc = description(new_pokemon_name)
-        nova_desc = nova_desc.replace('\n', ' ').replace('\f', ' ')
+        new_desc = description(new_pokemon_name)
+        new_desc = new_desc.replace('\n', ' ').replace('\f', ' ')
 
-        cores_tipos = {
+        color_types = {
             "normal": "#A8A77A",
             "fighting": "#C22E28",
             "flying": "#A9D4F0",
@@ -165,15 +165,15 @@ def new_pokemon():
             "unknown": "#DFC570"
         }
 
-        tipo = novo_info["types"][0]["type"]["name"]
-        cor_fundo = cores_tipos.get(tipo.lower(), "#FFFFFF")
+        type = novo_info["types"][0]["type"]["name"]
+        back_ground = color_types.get(type.lower(), "#FFFFFF")
         
         #labels
-        frame_pokemon.config(bg=cor_fundo)
-        frame_nome.config(text=novo_info["name"].capitalize(),bg=cor_fundo)
-        frame_tipo.config(text=tipo.capitalize(),bg=cor_fundo)
-        frame_id.config(text=f"#{novo_info['id']}", bg=cor_fundo)
-        description_frame.config(text=nova_desc, bg=cor_fundo)
+        frame_pokemon.config(bg=back_ground)
+        frame_nome.config(text=novo_info["name"].capitalize(),bg=back_ground)
+        frame_tipo.config(text=type.capitalize(),bg=back_ground)
+        frame_id.config(text=f"#{novo_info['id']}", bg=back_ground)
+        description_frame.config(text=new_desc, bg=back_ground)
         pokemon_height.config(text=f"• Height: {novo_info['height']/10} m")
         pokemon_weight.config(text=f"• Weight: {novo_info['weight']/10} Kg")
 
@@ -181,11 +181,11 @@ def new_pokemon():
         nova_imagem = load_image(new_pokemon_name)
 
         if nova_imagem:
-            frame_imagem.config(image=nova_imagem, bg=cor_fundo)
+            frame_imagem.config(image=nova_imagem, bg=back_ground)
             frame_imagem.image = nova_imagem
         else:
-            frame_imagem.config(image=None, text="Not found", font=("lvy 10"), fg="white", bg=cor_fundo)
-        frame_imagem.config(image=nova_imagem, bg=cor_fundo)
+            frame_imagem.config(image=None, text="Not found", font=("lvy 10"), fg="white", bg=back_ground)
+        frame_imagem.config(image=nova_imagem, bg=back_ground)
         frame_imagem.image = nova_imagem
 
         #moves
