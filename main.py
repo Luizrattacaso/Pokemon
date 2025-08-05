@@ -3,6 +3,7 @@ from tkinter import ttk
 
 from PIL import Image, ImageTk
 from io import BytesIO
+import requests
 
 from utils import get_pokemon_info, description, load_image
 
@@ -70,7 +71,7 @@ description_frame = Label(frame_pokemon,
     bg=co6,
     fg=co0,
     justify="left",
-    wraplength=150)  #quebra de linha
+    wraplength=150)  #break line
 description_frame.place(x=375, y=100)
 
 description_frame.lift()
@@ -135,81 +136,100 @@ for idx, movimento_info in enumerate(movimentos):
 def new_pokemon():
     new_pokemon_name = entry_pokemon.get().strip().lower()
     if not new_pokemon_name:
+        description_frame.config(text="Please enter a Pokémon name.")
         return
     
+    color_types = {
+        "normal": "#A8A77A", "fighting": "#C22E28", "flying": "#A9D4F0",
+        "poison": "#B763CD", "ground": "#E2BF65", "rock": "#B6A136",
+        "bug": "#A2D97C", "ghost": "#755793", "steel": "#C5CBA3",
+        "fire": "#EE8130", "water": "#6390F0", "grass": "#7AC74C",
+        "electric": "#F7D02C", "psychic": "#F95587", "ice": "#96D9D6",
+        "dragon": "#7C5AD2", "dark": "#705746", "fairy": "#D685AD",
+        "stellar": "#6A4C9C", "unknown": "#DFC570"
+    }
+
     try:
-        novo_info = get_pokemon_info(new_pokemon_name)
+        #try to get pokemon information
+        new_information = get_pokemon_info(new_pokemon_name)
+        if not new_information:
+            raise ValueError("Pokémon data not found")
+
+        # get descryption
         new_desc = description(new_pokemon_name)
-        new_desc = new_desc.replace('\n', ' ').replace('\f', ' ')
+        if not new_desc or new_desc.strip() == "":
+            new_desc = "No description available."
+        else:
+            new_desc = new_desc.replace('\n', ' ').replace('\f', ' ')
 
-        color_types = {
-            "normal": "#A8A77A",
-            "fighting": "#C22E28",
-            "flying": "#A9D4F0",
-            "poison": "#B763CD",
-            "ground": "#E2BF65",
-            "rock": "#B6A136",
-            "bug": "#A2D97C",
-            "ghost": "#755793",
-            "steel": "#C5CBA3",
-            "fire": "#EE8130",
-            "water": "#6390F0",
-            "grass": "#7AC74C",
-            "electric": "#F7D02C",
-            "psychic": "#F95587",
-            "ice": "#96D9D6",
-            "dragon": "#7C5AD2",
-            "dark": "#705746",
-            "fairy": "#D685AD",
-            "stellar": "#6A4C9C",
-            "unknown": "#DFC570"
-        }
+        # type and background
+        type_name = new_information["types"][0]["type"]["name"].lower()
+        back_ground = color_types.get(type_name, "#CCCCCC")  # cor padrão se tipo desconhecido
 
-        type = novo_info["types"][0]["type"]["name"]
-        back_ground = color_types.get(type.lower(), "#FFFFFF")
-        
-        #labels
+        # Atualizar interface
         frame_pokemon.config(bg=back_ground)
-        frame_nome.config(text=novo_info["name"].capitalize(),bg=back_ground)
-        frame_tipo.config(text=type.capitalize(),bg=back_ground)
-        frame_id.config(text=f"#{novo_info['id']}", bg=back_ground)
+        frame_nome.config(text=new_information["name"].capitalize(), bg=back_ground)
+        frame_tipo.config(text=type_name.capitalize(), bg=back_ground)
+        frame_id.config(text=f"#{new_information['id']}", bg=back_ground)
         description_frame.config(text=new_desc, bg=back_ground)
-        pokemon_height.config(text=f"• Height: {novo_info['height']/10} m")
-        pokemon_weight.config(text=f"• Weight: {novo_info['weight']/10} Kg")
+        pokemon_height.config(text=f"• Height: {new_information['height']/10} m")
+        pokemon_weight.config(text=f"• Weight: {new_information['weight']/10} Kg")
 
-        #imagem
+        # load image
         nova_imagem = load_image(new_pokemon_name)
-
         if nova_imagem:
             frame_imagem.config(image=nova_imagem, bg=back_ground)
-            frame_imagem.image = nova_imagem
+            frame_imagem.image = nova_imagem  # manter referência
         else:
-            frame_imagem.config(image=None, text="Not found", font=("lvy 10"), fg="white", bg=back_ground)
-        frame_imagem.config(image=nova_imagem, bg=back_ground)
-        frame_imagem.image = nova_imagem
+            frame_imagem.config(image=None, text="Image not available", font=("lvy 10"), fg="white", bg=back_ground)
 
-        #moves
+        # clear moves
         for widget in window.winfo_children():
-            if isinstance(widget, Label) and widget.winfo_y() >= 360 and widget.winfo_x() >= 290:
+            if isinstance(widget, Label) and 290 <= widget.winfo_x() <= 450 and widget.winfo_y() >= 360:
                 widget.destroy()
 
-        novos_moves = novo_info['moves'][:5]
-        for idx, movimento_info in enumerate(novos_moves):
-            nome_movimento = movimento_info['move']['name'].replace("-", " ").title()
-            movimento_pokemon = Label(window,
-                text=f"• {nome_movimento}",
+        # add new moves
+        new_moves = new_information['moves'][:5]
+        for idx, movimento_info in enumerate(new_moves):
+            move_name = movimento_info['move']['name'].replace("-", " ").title()
+            pokemon_move = Label(window,
+                text=f"• {move_name}",
                 relief="flat",
                 anchor='w',
                 font=("lvy 10"),
                 bg=co1,
                 fg=co0)
-            movimento_pokemon.place(x=290, y=360 + idx * 30)
+            pokemon_move.place(x=290, y=360 + idx * 30)
+
+    except requests.exceptions.ConnectionError:
+        description_frame.config(text="❌ Connection error.\nCheck your internet connection.")
+        frame_imagem.config(image=None, text="❌ No connection", font=("lvy 10"), fg="red", bg=co6)
+        print("Erro: Sem conexão com a internet.")
+
+    except requests.exceptions.Timeout:
+        description_frame.config(text="⏳ Request timed out.\nTry again later.")
+        print("Erro: Tempo de requisição excedido.")
+
+    except requests.exceptions.RequestException as e:
+        description_frame.config(text="⚠️ Request failed.\nCheck network or try again.")
+        print(f"Erro de requisição: {e}")
+
+    except KeyError:
+        description_frame.config(text="⚠️ Invalid data format.\nPokémon may not exist.")
+        print("Erro: Dados incompletos ou mal formatados.")
+
+    except ValueError as e:
+        if "not found" in str(e).lower():
+            description_frame.config(text="❌ Pokémon not found.\nCheck the spelling.")
+        else:
+            description_frame.config(text="⚠️ Invalid input.")
+        print(f"Erro: {e}")
 
     except Exception as e:
-        description_frame.config(text="Pokemon not found.")
-        print(f"Error: {e}")
+        description_frame.config(text="⚠️ An unexpected error occurred.")
+        print(f"Erro inesperado: {e}")
 
-#entrada
+#input
 entry_pokemon = Entry(window, font=("verdana 12"), width=20, bg=co1, fg=co0, relief="solid")
 entry_pokemon.place(x=300, y=10)
 
