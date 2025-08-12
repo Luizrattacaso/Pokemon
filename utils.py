@@ -26,21 +26,22 @@ def description(pokemon):
 
         if response.status_code == 200:
             data = response.json()
-            description = data["flavor_text_entries"][0]["flavor_text"]
-            if description == None:
-                return f"it's not possible to search\nfor information about {pokemon}"
-            else:
-                return description
+            english_entries = [
+                entry["flavor_text"]
+                for entry in data["flavor_text_entries"]
+                if entry["language"]["name"] == "en"
+            ]
+            if english_entries:
+                # Return the first English entry (or join all if you want all texts)
+                return english_entries[0]
         else:
             print(f"Something gone wrong. Status code: {response.status_code}")
-    except ValueError as v:
-        return f"Value Error: {v}"
-    except Exception as e:
-        return f"Error: {e}"
+    except:
+        return None
 
 def load_image(name):
     try:
-        url = f"https://play.pokemonshowdown.com/sprites/gen5/{name.lower()}.png"
+        url = f"http://play.pokemonshowdown.com/sprites/home-centered/{name.lower()}.png"
         response = requests.get(url, timeout=5)
         response.raise_for_status()
         img_data = BytesIO(response.content)
@@ -49,4 +50,17 @@ def load_image(name):
         return ImageTk.PhotoImage(img)
     except Exception as e:
         print(f"Erro ao carregar imagem online: {e}")
+        return None
+    
+def pokeball_image():
+    try:
+        url = "http://play.pokemonshowdown.com/sprites/itemicons/poke-ball.png"
+        response = requests.get(url, timeout=5)
+        response.raise_for_status()
+        img_data = BytesIO(response.content)
+        img = Image.open(img_data)
+        img = img.resize((50, 50), Image.Resampling.LANCZOS)
+        return ImageTk.PhotoImage(img)
+    except Exception as e:
+        print(f"Error trying to load photo: {e}")
         return None
