@@ -2,11 +2,10 @@
 
 A desktop Python app that displays information, image, and moves of Pokémon using a graphical interface built with Tkinter, consuming data from an external API via helper modules (get_pokemon_info, description, load_image).
 
----
 
 ## Features
 
-- Displays initial Pokémon Dragonite on startup.
+- Displays pokeball on startup.
 - Allows searching for other Pokémon by name.
 - Shows:
   - Name, type, and ID
@@ -17,8 +16,6 @@ A desktop Python app that displays information, image, and moves of Pokémon usi
   - Up to 5 moves
 - Background color changes according to the Pokémon's type (colors defined by type).
 
----
-
 ## 🧰 Technologies
 
 - **Python 3.x**  
@@ -28,8 +25,6 @@ A desktop Python app that displays information, image, and moves of Pokémon usi
   - `get_pokemon_info(nome)` → returns a JSON with Pokémon data
   - `description(nome)` → returns a descriptive text
   - `carregar_imagem_online(nome)` → returns image as `PhotoImage`
-
----
 
 ## ⚙️ Installation & Execution
 
@@ -43,6 +38,11 @@ A desktop Python app that displays information, image, and moves of Pokémon usi
    ```bash
    pip install -r requirements.txt
    ```
+  or use:
+   ```bash
+   pip install requests
+   pip install pillow
+   ```
 
 3. Make sure the utils.py file and icon/ folder are present.
 
@@ -52,18 +52,20 @@ A desktop Python app that displays information, image, and moves of Pokémon usi
    python main.py
    ```
 
----
-
 ## 🖼️ Usage Example
 
-* It shows Dragonite as initial pokemon:
+* On startup, a placeholder Pokéball is displayed.
 
-  * ID: `#149`
-  * Type: *Dragon*
-  * Height, weight, and up to 5 moves
-* Search for another Pokémon by typing its name (e.g., “Pikachu”) and clicking Search. The layout updates in real time.
+* Search for a Pokémon by typing its name (e.g., Pikachu) and clicking Search or pressing Enter.
 
----
+The app shows:
+
+  * ID and Type
+  * Height and weight
+  * Up to 5 moves
+  * Pokémon image and description
+
+* The interface updates instantly with the new data.
 
 ## 📁 Suggested Structure
 
@@ -91,24 +93,17 @@ Examples of colors defined in the cores_tipos dictionary:
 | Water    | `#6390F0` |
 | Grass    | `#7AC74C` |
 
----
-
 ## 🚀 Possible Improvements
 
 * Search by ID or multiple Pokémon.
 * Scroll support for long descriptions.
-* Display high-resolution images.
 * Show base stats, abilities, etc.
 * Better error handling (e.g., invalid Pokémon, offline status).
-
----
 
 ## 🤝 Contributions & License
 
 * **Contributions are welcome**: open an issue or submit a pull request.
 * **License**: consider adding a LICENSE file to the project (e.g., MIT, Apache 2.0).
-
----
 
 ## 🔍 Quick Run Example
 
