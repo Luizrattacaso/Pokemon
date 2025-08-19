@@ -75,7 +75,7 @@ description_frame.lift()
 #initial pokemon
 pokeball = pokeball_image()
 
-frame_imagem = Label(frame_pokemon, image=pokeball, bg=co7, fg=co7)
+frame_imagem = Label(frame_pokemon, image=pokeball, bg=co7)
 frame_imagem.place(x=180, y=210)
 
 frame_tipo.lift() #o método lift sobrepõe

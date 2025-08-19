@@ -54,7 +54,6 @@ def load_image(name):
     
 def pokeball_image():
     try:
-        
         url = "http://play.pokemonshowdown.com/sprites/itemicons/poke-ball.png"
         response = requests.get(url, timeout=5)
         response.raise_for_status()
