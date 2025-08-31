@@ -82,7 +82,7 @@ frame_tipo.lift() #o método lift sobrepõe
 
 #status
 status_pokemon = Label(window,
-    text="Informations",
+    text="Information",
     relief="flat",
     anchor=CENTER,
     font=("verdana 20 bold"),
@@ -129,12 +129,11 @@ def new_pokemon():
     }
 
     try:
-        #try to get pokemon information
         new_information = get_pokemon_info(new_pokemon_name)
         if not new_information:
             raise ValueError("Pokémon data not found")
 
-        # get descryption
+        # get description
         new_desc = description(new_pokemon_name)
         if not new_desc or new_desc.strip() == "":
             new_desc = "No description available."
