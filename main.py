@@ -18,7 +18,7 @@ window.geometry("550x510")
 window.resizable(False, False)
 
 try:
-    icone = PhotoImage(file="icon/cabeca-pikachu.png")
+    icone = PhotoImage(file="icon/icone-pikachu.png")
     window.iconphoto(False,icone)
 except:
     pass
@@ -33,41 +33,42 @@ style.theme_use("clam")
 frame_pokemon = Frame(window, width= 550, height = 350, relief="flat", background=co7)
 frame_pokemon.grid(row=1,column=0)
 
-frame_nome = Label(frame_pokemon,
-    text="your pokemon".capitalize(),
+def frame_padrão(texto=None, fonte=None, bg=None,anchor= None,relief="flat", **kwargs):
+    label = Label(frame_pokemon,
+    text=f"{texto}".capitalize(),
     relief="flat",
-    anchor=CENTER,
-    font=("Fixedsys 20 bold"),
-    bg=co7,
+    anchor=CENTER if anchor is None else anchor,
+    font=("lvy 10 bold") if fonte is None else fonte,
+    bg=co7 if bg is None else bg,
     fg=co0)
-frame_nome.place(x=12, y=15)
 
-frame_tipo = Label(frame_pokemon,
-    text=f"type".capitalize(),
-    relief="flat",
-    anchor=CENTER,
-    font=("lvy 10 bold"),
-    bg=co7,
-    fg=co0)
-frame_tipo.place(x=12, y=50)
+    for key, value in kwargs.items():
+        label[key] = value
 
-frame_id = Label(frame_pokemon,
-    text=f"#id".capitalize(),
+    return label
+
+def frame_window(texto=None, fonte=None, bg=None,anchor= None,relief="flat", **kwargs):
+    label = Label(window,
+    text=f"{texto}".capitalize(),
     relief="flat",
-    anchor=CENTER,
-    font=("lvy 10 bold"),
-    bg=co7,
+    anchor=CENTER if anchor is None else anchor,
+    font=("verdana 20 bold") if fonte is None else fonte,
+    bg=co1,
     fg=co0)
+
+    for key, value in kwargs.items():
+        label[key] = value
+
+    return label
+
+frame_type = frame_padrão(texto="type")
+frame_name = frame_padrão(texto="your pokemon", fonte="Fixedsys 20 bold")
+frame_id = frame_padrão(texto="#id")
+description_frame = frame_padrão(texto=f"Here will be the description of the pokemon", anchor=NW, fonte="lvy 12", justify="left", wraplength=150)
+
+frame_name.place(x=12, y=15)
+frame_type.place(x=12, y=50)
 frame_id.place(x=12, y=75)
-
-description_frame = Label(frame_pokemon,
-    text=f"Here will be the description of the pokemon",
-    anchor=NW,
-    font=("lvy 12"),
-    bg=co7,
-    fg=co0,
-    justify="left",
-    wraplength=150)  #break line
 description_frame.place(x=375, y=100)
 
 description_frame.lift()
@@ -75,41 +76,19 @@ description_frame.lift()
 #initial pokemon
 pokeball = pokeball_image()
 
-frame_imagem = Label(frame_pokemon, image=pokeball, bg=co7)
-frame_imagem.place(x=180, y=210)
+frame_image = Label(frame_pokemon, image=pokeball, bg=co7)
+frame_image.place(x=180, y=210)
 
-frame_tipo.lift() #o método lift sobrepõe
+frame_type.lift() #o método lift sobrepõe
 
-#status
-status_pokemon = Label(window,
-    text="Information",
-    relief="flat",
-    anchor=CENTER,
-    font=("verdana 20 bold"),
-    bg=co1,
-    fg=co0)
+status_pokemon = frame_window(texto="Information")
+pokemon_height = frame_window(texto=f"• Height: m", fonte="lvy 10")
+pokemon_weight = frame_window(texto=f"• Weight: Kg", fonte="lvy 10")
+moves_pokemon = frame_window(texto="Moves")
+
 status_pokemon.place(x=15, y=360)
-
-pokemon_height = Label(window, text=f"• Height: m", relief="flat", anchor=CENTER, font=("lvy 10"),bg=co1,fg=co0)
 pokemon_height.place(x=15, y=400)
-
-pokemon_weight = Label(window,
-    text=f"• Weight: Kg",
-    relief="flat",
-    anchor=CENTER,
-    font=("lvy 10"),
-    bg=co1,
-    fg=co0)
 pokemon_weight.place(x=15, y=425)
-
-#moves
-moves_pokemon = Label(window,
-    text="Moves",
-    relief="flat",
-    anchor=CENTER,
-    font=("verdana 20 bold"),
-    bg=co1,
-    fg=co0)
 moves_pokemon.place(x=285, y=360)
 
 def new_pokemon():
@@ -123,7 +102,7 @@ def new_pokemon():
         "poison": "#B763CD", "ground": "#E2BF65", "rock": "#B6A136",
         "bug": "#A2D97C", "ghost": "#755793", "steel": "#C5CBA3",
         "fire": "#EE8130", "water": "#6390F0", "grass": "#7AC74C",
-        "electric": "#ECCE58", "psychic": "#F95587", "ice": "#96D9D6",
+        "electric": "#E1C75F", "psychic": "#F95587", "ice": "#96D9D6",
         "dragon": "#7C5AD2", "dark": "#705746", "fairy": "#D685AD",
         "stellar": "#6A4C9C", "unknown": "#DFC570"
     }
@@ -144,10 +123,10 @@ def new_pokemon():
         type_name = new_information["types"][0]["type"]["name"].lower()
         back_ground = color_types.get(type_name, "#CCCCCC")  # cor padrão se tipo desconhecido
 
-        # Atualizar interface
+        # update interface
         frame_pokemon.config(bg=back_ground)
-        frame_nome.config(text=new_information["name"].capitalize(), bg=back_ground)
-        frame_tipo.config(text=type_name.capitalize(), bg=back_ground)
+        frame_name.config(text=new_information["name"].capitalize(), bg=back_ground)
+        frame_type.config(text=type_name.capitalize(), bg=back_ground)
         frame_id.config(text=f"#{new_information['id']}", bg=back_ground)
         description_frame.config(text=new_desc, bg=back_ground)
         pokemon_height.config(text=f"• Height: {new_information['height']/10} m")
@@ -156,12 +135,12 @@ def new_pokemon():
         # load image
         new_image = load_image(new_pokemon_name)
         if new_image:
-            frame_imagem.config(image=new_image, bg=back_ground)
-            frame_imagem.image = new_image  # manter referência
-            frame_imagem.place(x=100, y=80)
+            frame_image.config(image=new_image, bg=back_ground)
+            frame_image.image = new_image  # keep reference
+            frame_image.place(x=100, y=80)
         else:
-            frame_imagem.config(image=None, text="Image not available", font=("lvy 10"), fg="white", bg=back_ground)
-            frame_imagem.place(x=100, y=80)
+            frame_image.config(image=None, text="Image not available", font=("lvy 10"), fg="white", bg=back_ground)
+            frame_image.place(x=100, y=80)
 
         # clear moves
         for widget in window.winfo_children():
@@ -172,18 +151,12 @@ def new_pokemon():
         new_moves = new_information['moves'][:3]
         for idx, movimento_info in enumerate(new_moves):
             move_name = movimento_info['move']['name'].replace("-", " ").title()
-            pokemon_move = Label(window,
-                text=f"• {move_name}",
-                relief="flat",
-                anchor='w',
-                font=("lvy 10"),
-                bg=co1,
-                fg=co0)
+            pokemon_move = frame_window(texto=f"• {move_name}", fonte="lvy 10", anchor='w')
             pokemon_move.place(x=290, y=400 + idx * 30)
 
     except requests.exceptions.ConnectionError:
         description_frame.config(text="❌ Connection error.\nCheck your internet connection.")
-        frame_imagem.config(image=None, text="❌ No connection", font=("lvy 10"), fg="red", bg=co7)
+        frame_image.config(image=None, text="❌ No connection", font=("lvy 10"), fg="red", bg=co7)
         print("Erro: Sem conexão com a internet.")
 
     except requests.exceptions.Timeout:
