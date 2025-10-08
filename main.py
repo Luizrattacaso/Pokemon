@@ -93,6 +93,7 @@ moves_pokemon.place(x=285, y=360)
 
 def new_pokemon():
     new_pokemon_name = entry_pokemon.get().strip().lower()
+    
     if not new_pokemon_name:
         description_frame.config(text="Please enter a Pokémon name.")
         return

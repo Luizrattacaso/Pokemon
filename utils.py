@@ -4,7 +4,21 @@ from PIL import Image, ImageTk
 
 base_url = "https://pokeapi.co/api/v2/"
 
+def check_id(pokemon):
+    if str(pokemon).isnumeric():
+        pokemon = int(pokemon)
+        url = f"{base_url}pokemon/{pokemon}/"
+        response = requests.get(url)
+        if response.status_code == 200:
+            information = response.json()
+            pokemon = information["name"]
+        return pokemon
+    return pokemon
+
 def get_pokemon_info(pokemon):
+
+    pokemon = check_id(pokemon)
+
     url = f"{base_url}pokemon/{pokemon.lower()}/"
     response = requests.get(url)
 
@@ -39,8 +53,11 @@ def description(pokemon):
         return None
 
 def load_image(name):
+
+    pokemon = check_id(name)
+    
     try:
-        url = f"http://play.pokemonshowdown.com/sprites/home-centered/{name.lower()}.png"
+        url = f"http://play.pokemonshowdown.com/sprites/home-centered/{pokemon.lower()}.png"
         response = requests.get(url, timeout=5)
         response.raise_for_status() #se tiver erro na resposta ele pula para o except
         img_data = BytesIO(response.content)
