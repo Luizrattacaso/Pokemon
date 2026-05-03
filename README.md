@@ -1,4 +1,4 @@
-# 🐉 Pokémon Viewer
+# Pokémon Viewer
 
 A desktop Python app that displays information, image, and moves of Pokémon using a graphical interface built with Tkinter, consuming data from an external API via helper modules (get_pokemon_info, description, load_image).
 
@@ -16,7 +16,7 @@ A desktop Python app that displays information, image, and moves of Pokémon usi
   - Up to 5 moves
 - Background color changes according to the Pokémon's type (colors defined by type).
 
-## 🧰 Technologies
+## Technologies
 
 - **Python 3.x**  
 - **Tkinter** (graphical interface)
@@ -26,7 +26,7 @@ A desktop Python app that displays information, image, and moves of Pokémon usi
   - `description(nome)` → returns a descriptive text
   - `carregar_imagem_online(nome)` → returns image as `PhotoImage`
 
-## ⚙️ Installation & Execution
+## Installation & Execution
 
 1. Clone the repository:
    ```bash
@@ -52,7 +52,7 @@ A desktop Python app that displays information, image, and moves of Pokémon usi
    python main.py
    ```
 
-## 🖼️ Usage Example
+## Usage Example
 
 * On startup, a placeholder Pokéball is displayed.
 
@@ -67,7 +67,7 @@ The app shows:
 
 * The interface updates instantly with the new data.
 
-## 📁 Suggested Structure
+## Suggested Structure
 
 ```
 Pokemon/
@@ -80,7 +80,7 @@ Pokemon/
 
 ---
 
-## 🎨 Type Colors
+## Type Colors
 
 Examples of colors defined in the cores_tipos dictionary:
 
@@ -93,19 +93,19 @@ Examples of colors defined in the cores_tipos dictionary:
 | Water    | `#6390F0` |
 | Grass    | `#7AC74C` |
 
-## 🚀 Possible Improvements
+## Possible Improvements
 
 * Search by ID or multiple Pokémon.
 * Scroll support for long descriptions.
 * Show base stats, abilities, etc.
 * Better error handling (e.g., invalid Pokémon, offline status).
 
-## 🤝 Contributions & License
+## Contributions & License
 
 * **Contributions are welcome**: open an issue or submit a pull request.
 * **License**: consider adding a LICENSE file to the project (e.g., MIT, Apache 2.0).
 
-## 🔍 Quick Run Example
+## Quick Run Example
 
 ```bash
 git clone https://github.com/Luizrattacaso/Pokemon.git
