@@ -5,7 +5,11 @@ from PIL import Image, ImageTk
 from io import BytesIO
 import requests
 
-from utils import get_pokemon_info, description, load_image, pokeball_image
+from utils.check_id import check_id
+from utils.get_pokemon_info import get_pokemon_info
+from utils.get_description import description
+from utils.load_pokemon_image import load_image
+from utils.get_pokeball_image import pokeball_image
 
 co0 = "#09090C"
 co1 = "#feffff"

@@ -1,0 +1,11 @@
+# Ambiente virtual local
+venv/
+env/
+.venv/
+
+# Cache e arquivos gerados pelo Python
+__pycache__/
+*.py[cod]
+
+# Anotações locais
+notes/
