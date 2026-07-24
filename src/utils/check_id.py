@@ -2,7 +2,7 @@ import requests
 
 base_url = "https://pokeapi.co/api/v2/"
 
-def check_id(pokemon):
+def check_pokemon_id(pokemon):
     if str(pokemon).isnumeric():
         pokemon = int(pokemon)
         url = f"{base_url}pokemon/{pokemon}/"
