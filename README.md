@@ -21,7 +21,7 @@ A desktop Python app that displays information, image, and moves of Pokémon usi
 - **Python 3.x**  
 - **Tkinter** (graphical interface)
 - **Pillow** (mage handling)
-- Helper modules (imported from `utils.py`):
+- Helper modules (imported from `program`):
   - `get_pokemon_info(nome)` → returns a JSON with Pokémon data
   - `description(nome)` → returns a descriptive text
   - `carregar_imagem_online(nome)` → returns image as `PhotoImage`
@@ -35,11 +35,13 @@ A desktop Python app that displays information, image, and moves of Pokémon usi
 
 2. Install dependencies:
 
-   ```bash
+   - before there I really recommend to create a new virtual environment for download all the necessary libraries for the project
+
+   ```
    pip install -r requirements.txt
    ```
   or use:
-   ```bash
+   ```
    pip install requests
    pip install pillow
    ```
