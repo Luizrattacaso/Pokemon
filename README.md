@@ -21,10 +21,10 @@ A desktop Python app that displays information, image, and moves of Pokémon usi
 - **Python 3.x**  
 - **Tkinter** (graphical interface)
 - **Pillow** (mage handling)
-- Helper modules (imported from `utils.py`):
-  - `get_pokemon_info(nome)` → returns a JSON with Pokémon data
-  - `description(nome)` → returns a descriptive text
-  - `carregar_imagem_online(nome)` → returns image as `PhotoImage`
+- Helper modules (imported from `program`):
+  - `get_pokemon_info(name)` → returns a JSON with Pokémon data
+  - `description(name)` → returns a descriptive text
+  - `load_image(name)` → returns image as `PhotoImage`
 
 ## Installation & Execution
 
@@ -35,47 +35,64 @@ A desktop Python app that displays information, image, and moves of Pokémon usi
 
 2. Install dependencies:
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+   2.1 Create and activate a virtual environment (highly recommended):
+     
+      ```
+      python -m venv venv
+      source venv/bin/activate  # On Windows use: venv\Scripts\activate
+      ```
+    
+       ```
+       pip install -r requirements.txt
+       ```
   or use:
-   ```bash
+   ```
    pip install requests
    pip install pillow
    ```
 
-3. Make sure the utils.py file and icon/ folder are present.
-
-4. Run the app:
+3. Run the app:
 
    ```bash
    python main.py
    ```
 
 ## Usage Example
+- On startup, a placeholder Pokéball is displayed.
+- Search for a Pokémon by typing its name (e.g., "Pikachu") or typing an ID (e.g. 25) and clicking Search or pressing Enter.
+- The app instantly updates to show:
 
-* On startup, a placeholder Pokéball is displayed.
+    ID and Type
+    Height and weight
+    Up to 5 moves
+    Pokémon image and description
 
-* Search for a Pokémon by typing its name (e.g., Pikachu) and clicking Search or pressing Enter.
-
-The app shows:
-
-  * ID and Type
-  * Height and weight
-  * Up to 5 moves
-  * Pokémon image and description
-
-* The interface updates instantly with the new data.
+The interface background color updates to match the Pokémon's type
 
 ## Suggested Structure
 
 ```
 Pokemon/
-├── main.py               ←main script
-├── utils.py              ←API, description, image functions
-├── icon/
-│   └── cabeca-pikachu.png
-└── README.md
+├── .gitignore
+├── LICENSE
+├── README.md
+├── main.py                 # Main entry point script
+├── requirements.txt        # Python dependencies
+├── public/                 # Static assets
+│   └── icone-pikachu.png   # Application icon
+└── src/                    # Source code directory
+    ├── __init__.py
+    ├── program/            # UI and window management
+    │   ├── __init__.py
+    │   ├── frame_window.py
+    │   └── main_frame.py
+    └── utils/              # Helper functions and API calls
+        ├── __init__.py
+        ├── check_id.py
+        ├── get_description.py
+        ├── get_pokeball_image.py
+        ├── get_pokemon_info.py
+        └── load_pokemon_image.py
 ```
 
 ---
