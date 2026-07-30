@@ -1,5 +1,7 @@
+import requests
 from tkinter import *
 from tkinter import ttk
+from random import Random
 
 from src.program.frame_window import frame_window
 from src.program.main_frame import main_frame
@@ -77,6 +79,9 @@ def new_pokemon():
     if not new_pokemon_name:
         description_frame.config(text="Please enter a Pokémon name.")
         return
+
+    if new_pokemon_name == "random":
+        new_pokemon_name = str(Random().randint(1, 1025))
 
     color_types = {
         "normal": "#A8A77A", "fighting": "#C22E28", "flying": "#A9D4F0",
